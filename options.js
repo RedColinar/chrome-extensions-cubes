@@ -34,6 +34,27 @@ function saveOptions() {
     chrome.storage.sync.set({ 'js': js }, function () {
         console.log('save js is ' + js);
     })
+    chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
+        chrome.declarativeContent.onPageChanged.addRules([{
+            conditions: [
+                new chrome.declarativeContent.PageStateMatcher({
+                    pageUrl: { hostEquals: url },
+                })
+            ],
+            actions: [
+                new chrome.declarativeContent.ShowPageAction()
+            ]
+        }]);
+    });
+    chrome.runtime.onMessage.addListener(
+        function(message, callback) {
+            if(message == "runContentScript") {
+                chrom.tabs.executeScript({
+                    code: js
+                })
+            }
+        }
+    )
 }
 saveButton.addEventListener('click', function () {
     saveOptions()
