@@ -1,1 +1,2 @@
-console.log("hello")
+chrome.runtime.sendMessage({ executeScript: true }, function (response) {
+});

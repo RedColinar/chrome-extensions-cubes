@@ -1,11 +1,13 @@
 {
     "name": "JS Cube",
     "version": "1.0",
-    "description": "Build an Extension!",
+    "description": "Run your own JS!",
     "permissions": [
+        "tabs",
         "activeTab",
         "declarativeContent",
-        "storage"
+        "storage",
+        "<all_urls>"
     ],
     "background": {
         "scripts": [
@@ -20,7 +22,8 @@
             ],
             "js": [
                 "contentScript.js"
-            ]
+            ],
+            "run_at": "document_idle"
         }
     ],
     "options_page": "options.html",
