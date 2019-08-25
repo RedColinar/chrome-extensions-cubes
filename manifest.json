@@ -1,40 +1,24 @@
 {
     "name": "JS Cube",
     "version": "1.0",
-    "description": "Run your own JS!",
+    "description": "Inject your own JS into specific website!",
     "permissions": [
         "tabs",
         "activeTab",
-        "declarativeContent",
         "storage",
         "<all_urls>"
     ],
     "background": {
         "scripts": [
+            "logic.js",
             "background.js"
         ],
         "persistent": false
     },
-    "content_scripts": [
-        {
-            "matches": [
-                "<all_urls>"
-            ],
-            "js": [
-                "contentScript.js"
-            ],
-            "run_at": "document_idle"
-        }
-    ],
     "options_page": "options.html",
-    "page_action": {
+    "browser_action": {
         "default_popup": "popup.html",
-        "default_icon": {
-            "16": "images/get_started16.png",
-            "32": "images/get_started32.png",
-            "48": "images/get_started48.png",
-            "128": "images/get_started128.png"
-        }
+        "default_icon": "images/get_started48.png"
     },
     "icons": {
         "16": "images/get_started16.png",
