@@ -7,16 +7,14 @@ initData();
 initView();
 
 function initData() {
-  chrome.storage.sync.get(["urlKeys"], function(keyResult) {
-    console.log(keyResult);
-    console.log(isEmpty(keyResult.urlKeys));
-    console.log(isEmpty(keyResult) || isEmpty(keyResult.urlKeys))
+  chrome.storage.sync.get(["urlKeys"], function (keyResult) {
     if (isEmpty(keyResult) || isEmpty(keyResult.urlKeys)) {
       return;
     }
 
-    keyResult.urlKeys.forEach(id => {
-      chrome.storage.sync.get([id], function(values) {
+    keyResult.urlKeys.forEach(model => {
+      let id = model.id
+      chrome.storage.sync.get([id], function (values) {
         let data = values[id];
         let url = data.url;
         let desc = data.desc;
@@ -29,24 +27,25 @@ function initData() {
 
 function initView() {
   let saveButton = document.getElementById("save");
-  saveButton.addEventListener("click", function() {
+  saveButton.addEventListener("click", function () {
     saveOptions();
   });
   let addButton = document.getElementById("add");
-  addButton.addEventListener("click", function() {
+  addButton.addEventListener("click", function () {
     addOptions();
   });
   let deleteButton = document.getElementById("delete");
-  deleteButton.addEventListener("click", function() {
+  deleteButton.addEventListener("click", function () {
     deleteOptions();
   });
 }
 /**
  * {
- *   urlKeys:[id-1, id-2, id-3...]
+ *   urlKeys:[{url:url-1,id:id-1}, {url:url-2,id:id-2}...]
  * }
  * {
  *   id-1:{
+ *     id: id-1,
  *     url: url-1
  *     js:js-1,
  *     desc:desc-1
@@ -56,7 +55,7 @@ function initView() {
  */
 function saveOptions() {
   let lis = document.getElementById("menu").childNodes;
-  let ids = [];
+  let urlKeys = [];
 
   lis.forEach(li => {
     let id = li.getAttribute("id");
@@ -65,10 +64,14 @@ function saveOptions() {
     if (isEmpty(url) || isEmpty(js)) {
       return;
     }
-    ids.push(id);
+    urlKeys.push({
+      id: id,
+      url: url
+    });
     let desc = li.getElementsByClassName(desc_input_class)[0].value;
     let data = {};
     data[id] = {
+      id: id,
       url: url,
       desc: desc,
       js: js
@@ -77,7 +80,7 @@ function saveOptions() {
     chrome.storage.sync.set(data);
   });
 
-  chrome.storage.sync.set({ urlKeys: ids });
+  chrome.storage.sync.set({ urlKeys: urlKeys });
 }
 
 function addOptions(id, url, desc, js) {
@@ -108,7 +111,7 @@ function addOptions(id, url, desc, js) {
   jsTextarea.classList.add(js_input_class);
   jsTextarea.setAttribute("placeholder", "JS code");
   if (!isEmpty(js)) {
-    jsTextarea.value(js);
+    jsTextarea.value = js;
   }
   let hr = document.createElement("hr");
 
@@ -132,16 +135,9 @@ function addOptions(id, url, desc, js) {
   }
 }
 
-function deleteOptions() {}
+function deleteOptions() { }
 
 function getRandomId() {
   return Math.ceil(Math.random() * 1000000);
 }
 
-function isEmpty(obj) {
-  if (typeof obj == "undefined" || obj == null || obj == "") {
-    return true;
-  } else {
-    return false;
-  }
-}
