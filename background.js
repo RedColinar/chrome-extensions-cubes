@@ -9,27 +9,6 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     }
 });
 
-function getJsByUrl(domain, callback) {
-    chrome.storage.sync.get(["urlKeys"], function (keyResult) {
-        if (isEmpty(keyResult) || isEmpty(keyResult.urlKeys)) {
-            return;
-        }
-
-        for (var i = 0, length = keyResult.urlKeys.length; i < length; i++) {
-            let model = keyResult.urlKeys[i]
-            if (model.url == domain) {
-                let id = model.id
-                chrome.storage.sync.get([id], function (values) {
-                    let data = values[id];
-                    let js = data.js;
-                    callback(js)
-                });
-                return;
-            }
-        }
-    })
-}
-
 function extractDomain(url) {
     let domain;
     if (url.indexOf("://") > -1) {

@@ -2,27 +2,24 @@ const url_input_class = "input-url";
 const checkbox_input_class = "input-checkbox";
 const desc_input_class = "input-desc";
 const js_input_class = "input-js";
+const max_size = 30
 
 initData();
 initView();
 
 function initData() {
-  chrome.storage.sync.get(["urlKeys"], function (keyResult) {
-    if (isEmpty(keyResult) || isEmpty(keyResult.urlKeys)) {
-      return;
-    }
+  getUrlKeys(urlKeys => {
+    urlKeys.forEach(urlKey => {
+      let id = urlKey.id
 
-    keyResult.urlKeys.forEach(model => {
-      let id = model.id
-      chrome.storage.sync.get([id], function (values) {
-        let data = values[id];
+      getDataById(id, data => {
         let url = data.url;
         let desc = data.desc;
         let js = data.js;
         addOptions(id, url, desc, js);
-      });
+      })
     });
-  });
+  })
 }
 
 function initView() {
@@ -85,7 +82,7 @@ function saveOptions() {
 
 function addOptions(id, url, desc, js) {
   let menu = document.getElementById("menu");
-  if (menu.childNodes.length >= 20) {
+  if (menu.childNodes.length >= max_size) {
     alert("超过限制");
     return;
   }
@@ -135,7 +132,33 @@ function addOptions(id, url, desc, js) {
   }
 }
 
-function deleteOptions() { }
+function deleteOptions() {
+  let menu = document.getElementById("menu");
+  for (var i = 0, length = menu.childNodes.length; i < length; i++) {
+    let li = menu.childNodes[i];
+    let id = li.getAttribute("id")
+    let checked = li.getElementsByClassName(checkbox_input_class)[0].checked
+    if (checked) {
+      menu.removeChild(li)
+      removeById(id)
+    }
+  }
+}
+
+function removeById(id) {
+  chrome.storage.sync.remove([id]);
+  getUrlKeys(urlKeys => {
+    var expectedIndex;
+    for (var i = 0, length = urlKeys.length; i < length; i++) {
+      if (urlKeys[i].id == id) {
+        expectedIndex = i
+        break
+      }
+    }
+    urlKeys.splice(expectedIndex, 1)
+    chrome.storage.sync.set({ urlKeys: urlKeys });
+  })
+}
 
 function getRandomId() {
   return Math.ceil(Math.random() * 1000000);
