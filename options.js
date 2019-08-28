@@ -74,10 +74,10 @@ function saveOptions() {
       js: js
     };
 
-    chrome.storage.sync.set(data);
+    saveToStorage(data);
   });
 
-  chrome.storage.sync.set({ urlKeys: urlKeys });
+  saveToStorage({ urlKeys: urlKeys });
 }
 
 function addOptions(id, url, desc, js) {
@@ -146,7 +146,7 @@ function deleteOptions() {
 }
 
 function removeById(id) {
-  chrome.storage.sync.remove([id]);
+  removeFromStorage([id]);
   getUrlKeys(urlKeys => {
     var expectedIndex;
     for (var i = 0, length = urlKeys.length; i < length; i++) {
@@ -156,7 +156,7 @@ function removeById(id) {
       }
     }
     urlKeys.splice(expectedIndex, 1)
-    chrome.storage.sync.set({ urlKeys: urlKeys });
+    saveToStorage({ urlKeys: urlKeys });
   })
 }
 

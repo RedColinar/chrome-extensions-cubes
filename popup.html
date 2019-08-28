@@ -3,13 +3,6 @@
 
 <head>
   <style>
-    button {
-      height: 30px;
-      width: 30px;
-      outline: none;
-    }
-  </style>
-  <style>
     * {
       margin: 0;
       padding: 0;
@@ -44,11 +37,11 @@
     }
 
     .mui-switch:checked {
-      border-color: #fd5454;
+      border-color: #26A69A;
       /*颜色修改*/
-      box-shadow: #fd5454 0 0 0 16px inset;
+      box-shadow: #26A69A 0 0 0 16px inset;
       /*颜色修改*/
-      background-color: #fd5454;
+      background-color: #26A69A;
     }
 
     .mui-switch:checked:before {
@@ -65,17 +58,33 @@
     }
 
     .mui-switch.mui-switch-animbg:checked {
-      box-shadow: #fd5454 0 0 0 0 inset;
+      box-shadow: #26A69A 0 0 0 0 inset;
       /*颜色修改*/
-      background-color: #fd5454;
+      background-color: #26A69A;
       transition: border-color 0.4s, background-color ease 0.4s;
+    }
+
+    .popwindow {
+      padding: 15px;
+      width: 130px;
+      height: 30px;
+    }
+
+    .options {
+      height: 30px;
+      width: 50px;
+      outline: none;
+      float:right;
     }
   </style>
 </head>
 
 <body>
-  <label class="btn"><input class="mui-switch mui-switch-animbg" type="checkbox" checked="checked"></label>
-  <label class="btn"><input class="mui-switch mui-switch-animbg" type="checkbox"></label>
+  <div class="popwindow">
+      <input class="mui-switch mui-switch-animbg" type="checkbox" checked="checked">
+      <button class="options" >Options</button>
+  </div>
+  
   <script src="popup.js"></script>
 </body>
 

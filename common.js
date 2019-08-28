@@ -45,3 +45,11 @@ function getJsByUrl(domain, callback) {
       }
   })
 }
+
+function saveToStorage(data) {
+  chrome.storage.sync.set(data);
+}
+
+function removeFromStorage(keys) {
+  chrome.storage.sync.remove(keys);
+}
