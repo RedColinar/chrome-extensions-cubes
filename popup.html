@@ -2,6 +2,7 @@
 <html>
 
 <head>
+  <link rel="stylesheet" type="text/css" href="common.css" />
   <style>
     * {
       margin: 0;
@@ -48,16 +49,16 @@
       left: 21px;
     }
 
-    .mui-switch.mui-switch-animbg {
+    .mui-switch {
       /*加过度效果*/
       transition: background-color ease 0.4s;
     }
 
-    .mui-switch.mui-switch-animbg:before {
+    .mui-switch:before {
       transition: left 0.3s;
     }
 
-    .mui-switch.mui-switch-animbg:checked {
+    .mui-switch:checked {
       box-shadow: #26A69A 0 0 0 0 inset;
       /*颜色修改*/
       background-color: #26A69A;
@@ -66,25 +67,22 @@
 
     .popwindow {
       padding: 15px;
-      width: 130px;
-      height: 30px;
+      display: flex;
+      align-items: center
     }
 
     .options {
-      height: 30px;
-      width: 50px;
-      outline: none;
-      float:right;
+      margin-left: 10px;
     }
   </style>
 </head>
 
 <body>
   <div class="popwindow">
-      <input class="mui-switch mui-switch-animbg" type="checkbox" checked="checked">
-      <button class="options" >Options</button>
+    <input id="switch-button" class="mui-switch" type="checkbox" checked="checked">
+    <button class="pq-button options">Options</button>
   </div>
-  
+
   <script src="popup.js"></script>
 </body>
 
