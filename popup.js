@@ -1,7 +1,12 @@
 let switchButton = document.getElementById("switch-button");
-
+isOpen((isOpen) => {
+    switchButton.checked = isOpen;
+})
 switchButton.addEventListener("click", function(e) {
-  console.log(e.target.checked);
+    setIsOpen(e.target.checked)
 });
 
-switchButton.checked = false;
+let optionsButton = document.getElementById("options-button")
+optionsButton.addEventListener("click", function(e) {
+    openOptions()
+})

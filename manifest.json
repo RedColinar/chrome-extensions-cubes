@@ -1,7 +1,7 @@
 {
     "name": "JS Cube",
     "version": "1.0",
-    "description": "Inject your own JS into specific website!",
+    "description": "Inject your own JS into specific websites!",
     "permissions": [
         "tabs",
         "activeTab",
