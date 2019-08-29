@@ -10,6 +10,7 @@
     ],
     "background": {
         "scripts": [
+            "compat.js",
             "common.js",
             "background.js"
         ],

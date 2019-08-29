@@ -1,3 +1,5 @@
+let actualBrowser = getBrowser()
+
 function isEmpty(obj) {
     if (typeof obj == "undefined" || obj == null || obj == "") {
         return true;
@@ -21,7 +23,7 @@ function extractDomain(url) {
 // www.jianshu.com
 
 function getUrlKeys(callback) {
-    chrome.storage.sync.get(["urlKeys"], function(keyResult) {
+    actualBrowser.storage.sync.get(["urlKeys"], function(keyResult) {
         if (isEmpty(keyResult) || isEmpty(keyResult.urlKeys)) {
             return;
         }
@@ -31,7 +33,7 @@ function getUrlKeys(callback) {
 }
 
 function getDataById(id, callback) {
-    chrome.storage.sync.get([id], function(values) {
+    actualBrowser.storage.sync.get([id], function(values) {
         if (isEmpty(values) || isEmpty(values[id])) {
             return
         }
@@ -40,7 +42,7 @@ function getDataById(id, callback) {
 }
 
 function getJsByUrl(domain, callback) {
-    chrome.storage.sync.get(["urlKeys"], function(keyResult) {
+    actualBrowser.storage.sync.get(["urlKeys"], function(keyResult) {
         if (isEmpty(keyResult) || isEmpty(keyResult.urlKeys)) {
             return;
         }
@@ -49,7 +51,7 @@ function getJsByUrl(domain, callback) {
             let model = keyResult.urlKeys[i]
             if (model.url == domain) {
                 let id = model.id
-                chrome.storage.sync.get([id], function(values) {
+                actualBrowser.storage.sync.get([id], function(values) {
                     let data = values[id];
                     let js = data.js;
                     callback(js)
@@ -61,15 +63,15 @@ function getJsByUrl(domain, callback) {
 }
 
 function saveToStorage(data) {
-    chrome.storage.sync.set(data);
+    actualBrowser.storage.sync.set(data);
 }
 
 function removeFromStorage(keys) {
-    chrome.storage.sync.remove(keys);
+    actualBrowser.storage.sync.remove(keys);
 }
 
 function isOpen(callback) {
-    chrome.storage.sync.get("isOpen", function(result) {
+    actualBrowser.storage.sync.get("isOpen", function(result) {
         // isEmpty(isOpen) || isOpen 表示已开启
         let isOpen = result.isOpen
         callback(isOpen)
@@ -77,21 +79,21 @@ function isOpen(callback) {
 }
 
 function setIsOpen(isOpen) {
-    chrome.storage.sync.set({ isOpen: isOpen });
+    actualBrowser.storage.sync.set({ isOpen: isOpen });
 }
 
 function openOptions() {
-    chrome.runtime.openOptionsPage()
+    actualBrowser.runtime.openOptionsPage()
 }
 
 function addTabUpdatedListener() {
-    chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+    actualBrowser.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
         if (changeInfo.status == "complete") {
             isOpen(isOpen => {
                 if (isOpen) {
                     var domain = extractDomain(tab.url);
                     getJsByUrl(domain, function(js) {
-                        chrome.tabs.executeScript(tab.id, { code: js });
+                        actualBrowser.tabs.executeScript(tab.id, { code: js });
                     });
                 }
             })
