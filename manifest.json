@@ -17,8 +17,9 @@
     },
     "options_ui": {
         "page": "options.html",
-        "browser_style": true,
-        "chrome_style": true
+        "open_in_tab": true,
+        "browser_style": false,
+        "chrome_style": false
     },
     "browser_action": {
         "default_popup": "popup.html",
@@ -29,5 +30,11 @@
         "72": "images/ic_launcher_js72.png",
         "144": "images/ic_launcher_js144.png"
     },
-    "manifest_version": 2
+    "manifest_version": 2,
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "{9805bd00-d0a7-4e6b-9267-39053437b622}",
+            "strict_min_version": "42.0"
+        }
+    }
 }
